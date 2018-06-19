@@ -32,19 +32,27 @@ export class AppComponent {
   };
   closeResult: string;
   isSearching = 0;
-  
+  searchForm = '';
+
   constructor(private http: HttpClient, private modalService: NgbModal){
   }
 
   // DATA
     resetTable(e){
-      let n = e.target.value.length;
+
+      let n = 0;
+      if(e.type != 'click')
+        n = e.target.value.length;
+      else
+        this.searchForm = "";
+
       if(n == 0){
         this.country.list.data = this.country.source;
         this.country.list.source = this.country.source;
         this.setPagination();
         this.displayData();
       }
+
     }
 
     // FORM SEARCH

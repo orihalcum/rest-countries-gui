@@ -9,11 +9,15 @@
 
 .pagination {
     position: absolute;
-    right: 330px;
+    right: 360px;
 }
 
 .pagination a {
-    color: #AAA;
+    color: #BBB;
+}
+
+.fa {
+    color: #BBB !important;
 }
 
 i.fa.fa-chevron-left {
@@ -27,7 +31,12 @@ i.fa.fa-chevron-right {
 }
 
 .fa.fa-spinner {
+    margin-left: 5px;
+    margin-right: 5px;
+}
 
+.fa.fa-times-circle {
+    margin-top: 4px;
 }
 
 .form-search {

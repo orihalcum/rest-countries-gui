@@ -13,8 +13,9 @@
       </span>
       <div class="form-group">
         <span class="fa fa-search"></span>
-        <input type="text" class="form-input-search" placeholder="Search something..." name="search" (keyup.enter)="formSearchListener($event);" (keyup)="resetTable($event)">
+        <input type="text" class="form-input-search" placeholder="Search something..." name="search" [(ngModel)]="searchForm" (keyup.enter)="formSearchListener($event);" (keyup)="resetTable($event)">
         <span class="fa fa-spinner spin" *ngIf="isSearching == 1"></span>        
+        <a href="javascript:;" class="fa fa-times-circle" *ngIf="searchForm != ''" (click)="resetTable($event)"></a>        
       </div>
     </form>
   </div>
