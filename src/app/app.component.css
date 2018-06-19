@@ -1,0 +1,37 @@
+.table {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.form-search {
+    margin-top: -35px;
+    color: #AAA;
+}
+
+.form-search .fa-search {
+    font-size: 16px;
+    padding: 0 10px;
+    margin: 0 10px;
+    border-right: 1px solid #AAA;
+}
+
+.form-search input {
+    border: none;
+    outline: none;
+}
+
+.modal-body .table {
+    margin: 0px;
+}
+
+.modal-body .table thead td{
+    text-align:center;
+    border: 0;
+}
+
+.modal-body .table tbody td:first-child{
+    font-weight: bold;
+    text-align: right;
+}
+
+

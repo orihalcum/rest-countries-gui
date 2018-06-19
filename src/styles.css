@@ -1,1 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "../node_modules/font-awesome/css/font-awesome.min.css";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Oswald');
+
+body {
+    background-color: white;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 { 
+    color: #2788c7; 
+    font-family: 'Oswald', sans-serif;
+}
+
+small { color: #DDD !important }
+
+.img-center { margin: 0 auto 15px; }
+
+.m-t-25 { margin-top: 25px !important; }
+
+.table-primary {
+}
+
+.table-primary, tr, td, th {
+    background-color: white;
+}
+
+.table-primary tbody tr td {
+    padding: 15px 25px;
+    vertical-align: middle;
+}
+
+.table-primary thead tr th {
+    background-color: #2788c7;
+    color: white;
+    padding: 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;   
+}
+
+footer {
+    text-align: center;
+    position: relative;
+    bottom: 0px;
+    padding: 20px;
+    color: #AAA;
+}
