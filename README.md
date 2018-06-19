@@ -1,4 +1,7 @@
-# RestCountries
+# Rest Countries GUI
+
+Source API : https://restcountries.eu/
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
 
