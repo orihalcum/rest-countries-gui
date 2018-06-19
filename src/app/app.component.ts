@@ -13,8 +13,19 @@ export class AppComponent {
   title = 'app';
   country = {
     source: [],
-    list: [],
-    detail: {}
+    list: {
+      source: [],
+      data: [],
+      pagination: {
+        limit: 10,
+        total: 0,
+        total_page: 0,
+        current_page: 0,
+        next_page: 0,
+        prev_page: 0
+      }
+    },
+    detail: {},
   };
   countries = {
     country: []
@@ -24,67 +35,129 @@ export class AppComponent {
   constructor(private http: HttpClient, private modalService: NgbModal){
   }
 
-  formNullCheck(e){
-    let n = e.target.value.length;
-    if(n == 0)
-      this.country.list = this.country.source;  
-  }
-
-  formSearchListener(e){
-
-    this.countries = {
-      country: []
-    };
-    
-    let n = e.target.value.length;
-
-    if(n > 0){
-
-      let keyword = e.target.value;
-      
-      let url_country_name = "https://restcountries.eu/rest/v2/name/" + keyword;
-      this.http.get(url_country_name)
-      .subscribe(data => {
-          this.renderData(data);                  
-        });
-
-      if(n > 1 && n <= 3){
-        let url_iso_code = "https://restcountries.eu/rest/v2/alpha?codes=" + keyword;
-        this.http.get(url_iso_code).subscribe(data => {
-          this.renderData(data);                  
-        });
+  // DATA
+    formNullCheck(e){
+      let n = e.target.value.length;
+      if(n == 0){
+        this.country.list.data = this.country.source;
+        this.country.list.source = this.country.source;
+        this.setPagination();
+        this.displayData();
       }
-    
-    }else{
+    }
 
-      // return to source list
-      this.country.list = this.country.source;    
+    formSearchListener(e){
+
+      this.countries = {
+        country: []
+      };
+      
+      let n = e.target.value.length;
+
+      if(n > 0){
+
+        let keyword = e.target.value;
+        
+        let url_country_name = "https://restcountries.eu/rest/v2/name/" + keyword;
+        this.http.get(url_country_name)
+        .subscribe(data => {
+            this.renderData(data);                  
+          });
+
+        if(n > 1 && n <= 3){
+          let url_iso_code = "https://restcountries.eu/rest/v2/alpha?codes=" + keyword;
+          this.http.get(url_iso_code).subscribe(data => {
+            this.renderData(data);                  
+          });
+        }
+      
+      }else{
+
+        // return to source list
+        this.country.list = this.country.source;    
+        
+      }
+
+    }
+
+    renderData(data){
+      
+      data.forEach(element => {
+      
+        let isExist = false;
+        
+        this.countries.country.forEach(el => {
+          if(element.name == el.name)
+            isExist = true;
+        });
+        
+        if(isExist == false){
+          this.countries.country.push(element);                              
+          this.countries.country.sort(this.dynamicSort(element.name));
+        }
+
+      });
+
+      this.country.list.data = this.countries.country;
+      this.country.list.source = this.countries.country;
+      this.setPagination();
+      this.displayData();
       
     }
 
-  }
+  // END OF DATA
+  
+  // PAGINATION
 
-  renderData(data){
-    
-    data.forEach(element => {
-    
-      let isExist = false;
+    setPagination(){
+
+      let n = this.country.list.source.length;
+      let next_page, prev_page = 0;
       
-      this.countries.country.forEach(el => {
-        if(element.name == el.name)
-          isExist = true;
-      });
+      this.country.list.pagination.total = n;
+      this.country.list.pagination.current_page = 1;
+      this.country.list.pagination.total_page = Math.ceil(n / this.country.list.pagination.limit);
       
-      if(isExist == false){
-        this.countries.country.push(element);                              
-        this.countries.country.sort(this.dynamicSort(element.name));
+      if(this.country.list.pagination.total_page > 1)
+        next_page = 2;
+      
+      this.country.list.pagination.next_page = next_page;
+      this.country.list.pagination.prev_page = prev_page;
+
+    }
+
+    goTo(n){
+    
+      let go = n;
+      if(n == 1){
+        this.setPagination();
+      }else if(n > 1 && n < this.country.list.pagination.total_page){
+        this.country.list.pagination.current_page = n;
+        this.country.list.pagination.next_page = n + 1;
+        this.country.list.pagination.prev_page = n - 1;
+      }else if(n == this.country.list.pagination.total_page){
+        this.country.list.pagination.current_page = n;
+        this.country.list.pagination.prev_page = n - 1; 
+        this.country.list.pagination.next_page = n;               
       }
+      
+      this.displayData();
+      
+    }
 
-    });
+    displayData(){
 
-    this.country.list = this.countries.country;  
-    
-  }
+      let data = [];
+      let from = ((this.country.list.pagination.current_page-1) * this.country.list.pagination.limit);
+      let to = (this.country.list.pagination.current_page * this.country.list.pagination.limit) - 1;
+      for(let i = from; i <= to; i++)
+        data.push(this.country.list.source[i]);
+
+      this.country.list.data = data;
+
+    }
+
+  // END OF PAGINATION
 
   // MODAL
     open(country, content) {
@@ -130,7 +203,10 @@ export class AppComponent {
     this.http.get('https://restcountries.eu/rest/v2/all').subscribe(data => {
       data.forEach(element => {
         this.country.source.push(element);
-        this.country.list = this.country.source;
+        this.country.list.data = this.country.source;
+        this.country.list.source = this.country.source;
+        this.setPagination();
+        this.displayData();
       });
     });
   }

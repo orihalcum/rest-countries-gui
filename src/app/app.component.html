@@ -2,8 +2,15 @@
 <div>
 
   <div class="title m-t-25">
-    <h1>REST COUNTRIES &nbsp;<small>( {{ country.list.length }} )</small></h1>
+    <h1>REST COUNTRIES &nbsp;<small>( {{ country.list.data.length }} )</small></h1>
     <form class="form form-search pull-right" (submit)="$event.preventDefault()">
+      <span class="pagination">
+        <a href="javascript:;"><i class="fa fa-chevron-left " *ngIf="country.list.pagination.current_page > 1" (click)="goTo(country.list.pagination.prev_page)"></i></a>
+        <span>{{ country.list.pagination.current_page }}</span> &nbsp;
+        of  &nbsp;
+        <span>{{ country.list.pagination.total_page }}</span>
+        <a href="javascript:;"><i class="fa fa-chevron-right " *ngIf="country.list.pagination.current_page < country.list.pagination.total_page" (click)="goTo(country.list.pagination.next_page)"></i></a>
+      </span>
       <div class="form-group">
         <span class="fa fa-search"></span>
         <input type="text" class="form-input-search" placeholder="Search something..." name="search" (keyup.enter)="formSearchListener($event);" (keyup)="formNullCheck($event)">
@@ -21,11 +28,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let i of country.list">
+      <tr *ngFor="let i of country.list.data">
         <td>
-          <a href="#" (click)="open(i, content)">
-            <img [src]="i.flag" class="img-responsive" style="height:50px; margin-right: 15px;">
+          <a href="javascript:;" (click)="open(i, content)">
             {{i.name}}
+            <img [src]="i.flag" class="img-responsive" style="height:15px; margin-left: 10px;">
           </a>
         </td>
         <td>{{ i.alpha2Code }}</td>

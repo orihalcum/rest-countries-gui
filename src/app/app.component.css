@@ -3,16 +3,39 @@
     margin-bottom: 30px;
 }
 
-.form-search {
-    margin-top: -35px;
+.table.table-primary td:last-child{
+    text-align: right;
+}
+
+.pagination {
+    position: absolute;
+    right: 330px;
+}
+
+.pagination a {
     color: #AAA;
+}
+
+i.fa.fa-chevron-left {
+    margin-top: 4px;
+    margin-right: 10px;
+}
+
+i.fa.fa-chevron-right {
+    margin-top: 4px;
+    margin-left: 10px;
+}
+
+.form-search {
+    margin-top: -37px;
+    color: #BBB;
 }
 
 .form-search .fa-search {
     font-size: 16px;
     padding: 0 10px;
-    margin: 0 10px;
-    border-right: 1px solid #AAA;
+    margin: 0 8px;
+    border-right: 1px solid #BBB;
 }
 
 .form-search input {

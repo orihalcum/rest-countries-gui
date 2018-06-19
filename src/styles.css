@@ -27,8 +27,12 @@ small { color: #DDD !important }
 }
 
 .table-primary tbody tr td {
-    padding: 15px 25px;
+    padding: 12px 15px;
     vertical-align: middle;
+}
+
+.table-primary tbody tr:hover td {
+    background-color: #FAFAFA;
 }
 
 .table-primary thead tr th {
@@ -38,6 +42,11 @@ small { color: #DDD !important }
     text-transform: uppercase;
     font-weight: bold;
     font-size: 16px;   
+}
+
+::-webkit-input-placeholder {
+    color: #CCC;
+    font-size: 13px;
 }
 
 footer {
