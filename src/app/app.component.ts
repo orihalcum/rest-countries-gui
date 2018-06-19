@@ -31,6 +31,7 @@ export class AppComponent {
     country: []
   };
   closeResult: string;
+  isSearching = 0;
   
   constructor(private http: HttpClient, private modalService: NgbModal){
   }
@@ -48,6 +49,8 @@ export class AppComponent {
 
     // FORM SEARCH
       formSearchListener(e){
+
+        this.isSearching = 1;
 
         this.countries = {
           country: []
@@ -144,6 +147,8 @@ export class AppComponent {
       }
       
       this.country.list.data = data;
+      
+      this.isSearching = 0;
       
     }
     

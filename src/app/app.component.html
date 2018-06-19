@@ -14,6 +14,7 @@
       <div class="form-group">
         <span class="fa fa-search"></span>
         <input type="text" class="form-input-search" placeholder="Search something..." name="search" (keyup.enter)="formSearchListener($event);" (keyup)="resetTable($event)">
+        <span class="fa fa-spinner spin" *ngIf="isSearching == 1"></span>        
       </div>
     </form>
   </div>
@@ -38,7 +39,7 @@
         <td>{{ i.alpha2Code }}</td>
         <td>{{ i.alpha3Code }}</td>
         <td>{{ i.capital }}</td>
-        <td>{{ i.population }}</td>
+        <td>{{ i.population.toLocaleString("id-ID") }}</td>
       </tr>
     </tbody>
     <tbody *ngIf="country.list.data.length == 0">
@@ -73,7 +74,7 @@
         <tr>
         <tr>
           <td>Population : </td>
-          <td>{{ country.detail.population }}</td>
+          <td>{{ country.detail.population.toLocaleString("id-ID") }}</td>
         <tr>
         <tr>
           <td>Region : </td>
