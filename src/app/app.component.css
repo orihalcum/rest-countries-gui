@@ -52,6 +52,10 @@ i.fa.fa-chevron-right {
     border: 0;
 }
 
+.modal-body .table thead td img{
+    box-shadow: 1px 5px 30px #BBB;
+}
+
 .modal-body .table tbody td:first-child{
     font-weight: bold;
     text-align: right;

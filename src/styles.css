@@ -16,8 +16,10 @@ h1, h2, h3, h4, h5, h6 {
 small { color: #DDD !important }
 
 .img-center { margin: 0 auto 15px; }
-
+.text-center { text-align: center !important; }
 .m-t-25 { margin-top: 25px !important; }
+.p-30 { padding: 30px !important; }
+.bg-light { background-color: #FAFAFA }
 
 .table-primary {
 }

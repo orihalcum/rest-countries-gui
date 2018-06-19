@@ -36,7 +36,7 @@ export class AppComponent {
   }
 
   // DATA
-    formNullCheck(e){
+    resetTable(e){
       let n = e.target.value.length;
       if(n == 0){
         this.country.list.data = this.country.source;
@@ -46,64 +46,73 @@ export class AppComponent {
       }
     }
 
-    formSearchListener(e){
+    // FORM SEARCH
+      formSearchListener(e){
 
-      this.countries = {
-        country: []
-      };
-      
-      let n = e.target.value.length;
-
-      if(n > 0){
-
-        let keyword = e.target.value;
+        this.countries = {
+          country: []
+        };
         
-        let url_country_name = "https://restcountries.eu/rest/v2/name/" + keyword;
-        this.http.get(url_country_name)
-        .subscribe(data => {
-            this.renderData(data);                  
-          });
+        let n = e.target.value.length;
 
-        if(n > 1 && n <= 3){
-          let url_iso_code = "https://restcountries.eu/rest/v2/alpha?codes=" + keyword;
-          this.http.get(url_iso_code).subscribe(data => {
-            this.renderData(data);                  
-          });
+        if(n > 0){
+
+          let keyword = e.target.value;
+          
+          let url_country_name = "https://restcountries.eu/rest/v2/name/" + keyword;
+          this.http.get(url_country_name).subscribe(data => {            
+              this.renderData(data);                  
+          }, error => { this.renderData([]) });
+
+          if(n > 1 && n <= 3){
+            let url_iso_code = "https://restcountries.eu/rest/v2/alpha?codes=" + keyword;
+            this.http.get(url_iso_code).subscribe(data => {
+              this.renderData(data);                  
+            }, error => { this.renderData([]) });
+          }
+        
+        }else{
+
+          // return to source list
+          this.country.list = this.country.source;    
+          
         }
-      
-      }else{
 
-        // return to source list
-        this.country.list = this.country.source;    
-        
       }
 
-    }
+      renderData(data){
+        
+        if(data.length > 0){
 
-    renderData(data){
-      
-      data.forEach(element => {
-      
-        let isExist = false;
+          data.forEach(element => {
+          
+            if(element != undefined){
+  
+              let isExist = false;
+              
+              this.countries.country.forEach(el => {
+                if(element.name == el.name)
+                  isExist = true;
+              });
+              
+              if(isExist == false){
+                this.countries.country.push(element);                              
+                this.countries.country.sort(this.dynamicSort(element.name));
+              }
+  
+            }
+  
+          });
         
-        this.countries.country.forEach(el => {
-          if(element.name == el.name)
-            isExist = true;
-        });
-        
-        if(isExist == false){
-          this.countries.country.push(element);                              
-          this.countries.country.sort(this.dynamicSort(element.name));
         }
 
-      });
+        this.country.list.source = this.countries.country;
+        this.country.list.data = this.countries.country;
+        this.setPagination();
+        this.displayData();
 
-      this.country.list.data = this.countries.country;
-      this.country.list.source = this.countries.country;
-      this.setPagination();
-      this.displayData();
-      
-    }
+      }
+    // END OF FORM SEARCH
 
   // END OF DATA
   
@@ -112,20 +121,32 @@ export class AppComponent {
     setPagination(){
 
       let n = this.country.list.source.length;
-      let next_page, prev_page = 0;
+      let next_page;
       
       this.country.list.pagination.total = n;
-      this.country.list.pagination.current_page = 1;
+      this.country.list.pagination.current_page = n > 0 ? 1 : 0;
       this.country.list.pagination.total_page = Math.ceil(n / this.country.list.pagination.limit);
       
-      if(this.country.list.pagination.total_page > 1)
-        next_page = 2;
-      
+      this.country.list.pagination.total_page > 1 ? next_page = 2 : next_page = this.country.list.pagination.total_page;
       this.country.list.pagination.next_page = next_page;
-      this.country.list.pagination.prev_page = prev_page;
+      this.country.list.pagination.prev_page = 0;
 
     }
 
+    displayData(){
+      
+      let data = [];
+      let from = ((this.country.list.pagination.current_page-1) * this.country.list.pagination.limit);
+      let to = (this.country.list.pagination.current_page * this.country.list.pagination.limit) - 1;
+      for(let i = from; i <= to; i++){
+        if(this.country.list.source[i] != undefined)
+          data.push(this.country.list.source[i]);
+      }
+      
+      this.country.list.data = data;
+      
+    }
+    
     goTo(n){
     
       let go = n;
@@ -143,18 +164,6 @@ export class AppComponent {
       
       this.displayData();
       
-    }
-
-    displayData(){
-
-      let data = [];
-      let from = ((this.country.list.pagination.current_page-1) * this.country.list.pagination.limit);
-      let to = (this.country.list.pagination.current_page * this.country.list.pagination.limit) - 1;
-      for(let i = from; i <= to; i++)
-        data.push(this.country.list.source[i]);
-
-      this.country.list.data = data;
-
     }
 
   // END OF PAGINATION
