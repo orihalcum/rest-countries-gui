@@ -22,6 +22,7 @@ small { color: #DDD !important }
 .bg-light { background-color: #FAFAFA }
 
 .table-primary {
+    box-shadow: 1px 10px 40px #DDD;
 }
 
 .table-primary, tr, td, th {
@@ -55,6 +56,6 @@ footer {
     text-align: center;
     position: relative;
     bottom: 0px;
-    padding: 20px;
-    color: #AAA;
+    padding: 20px 20px 40px;
+    color: #DDD;
 }
