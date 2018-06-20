@@ -7,12 +7,13 @@
     text-align: right;
 }
 
-.pagination {
-    position: absolute;
-    right: 360px;
+.paging {
+    /* position: absolute; */
+    /* right: 360px; */
+    margin-right: 25px;
 }
 
-.pagination a {
+.paging a {
     color: #BBB;
 }
 
@@ -31,16 +32,20 @@ i.fa.fa-chevron-right {
 }
 
 .fa.fa-spinner {
-    margin-left: 5px;
-    margin-right: 5px;
+    position: absolute; 
+    right:-30px; 
+    top: 5px;
 }
 
 .fa.fa-times-circle {
-    margin-top: 4px;
+    position: absolute; 
+    right:5px; 
+    top: 5px;
 }
 
 .form-search {
-    margin-top: -37px;
+    position: relative;
+    margin-top: -30px;
     color: #BBB;
 }
 
@@ -54,6 +59,7 @@ i.fa.fa-chevron-right {
 .form-search input {
     border: none;
     outline: none;
+    padding-right: 30px;
 }
 
 .modal-body .table {
