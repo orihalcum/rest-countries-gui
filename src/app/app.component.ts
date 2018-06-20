@@ -23,6 +23,10 @@ export class AppComponent {
         current_page: 0,
         next_page: 0,
         prev_page: 0
+      },
+      sort: {
+        name: '',
+        population: ''
       }
     },
     detail: {},
@@ -35,25 +39,10 @@ export class AppComponent {
   searchForm = '';
 
   constructor(private http: HttpClient, private modalService: NgbModal){
+      
   }
 
   // DATA
-    resetTable(e){
-
-      let n = 0;
-      if(e.type != 'click')
-        n = e.target.value.length;
-      else
-        this.searchForm = "";
-
-      if(n == 0){
-        this.country.list.data = this.country.source;
-        this.country.list.source = this.country.source;
-        this.setPagination();
-        this.displayData();
-      }
-
-    }
 
     // FORM SEARCH
       formSearchListener(e){
@@ -62,6 +51,11 @@ export class AppComponent {
 
         this.countries = {
           country: []
+        };
+        
+        this.country.list.sort = {
+          name: '',
+          population: ''
         };
         
         let n = e.target.value.length;
@@ -122,6 +116,27 @@ export class AppComponent {
 
       }
     // END OF FORM SEARCH
+    
+    resetTable(e){
+
+      let n = 0;
+      if(e.type != 'click')
+        n = e.target.value.length;
+      else
+        this.searchForm = "";
+
+      if(n == 0){
+        this.country.list.source = this.sortByName(this.country.source);
+        this.country.list.data = this.country.list.source;
+        this.country.list.sort = {
+          name: '',
+          population: ''
+        };
+        this.setPagination();
+        this.displayData();
+      }
+
+    }
 
   // END OF DATA
   
@@ -180,8 +195,24 @@ export class AppComponent {
   // END OF PAGINATION
 
   //
+    sort(by,data,sort){
+
+      switch (by) {
+        case 'population':
+          this.sortByPopulation(data, sort);
+          break;
+          
+        default:
+          break;
+      }
+
+      this.setPagination();
+      this.displayData();
+
+    }
+
     sortByName(data){
-      console.log(data);
+      
       return data.sort(function(a,b){ 
         var A = a.name.toUpperCase(); // ignore upper and lowercase
         var B = b.name.toUpperCase(); // ignore upper and lowercase
@@ -195,6 +226,25 @@ export class AppComponent {
         // names must be equal
         return 0;
       });
+
+    }
+
+    sortByPopulation(data, sort){
+
+      this.country.list.sort.population = sort;
+      return data.sort(function(a,b){ 
+        switch (sort) {
+          case "asc":
+            return a.population - b.population;
+            break;
+          case "desc":
+            return b.population - a.population;
+            break;
+          default: return data;
+            break;
+        }
+      });
+
     }
   //
 

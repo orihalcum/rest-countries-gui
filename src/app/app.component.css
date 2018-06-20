@@ -7,6 +7,14 @@
     text-align: right;
 }
 
+.table.table-primary td:first-child{
+    max-width: 320px;
+}
+
+.table.table-primary th .fa, .table.table-primary th a.fa {
+    color: white !important;
+}
+
 .paging {
     /* position: absolute; */
     /* right: 360px; */
@@ -41,6 +49,21 @@ i.fa.fa-chevron-right {
     position: absolute; 
     right:5px; 
     top: 5px;
+}
+
+.sort {
+    position: relative;
+}
+.sort .fa {
+    position: absolute;
+}
+
+.sort .fa.fa-sort-up {
+    top: 4px;
+}
+
+.sort .fa.fa-sort-down {
+    bottom: 1px;
 }
 
 .form-search {

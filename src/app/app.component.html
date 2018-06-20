@@ -7,11 +7,12 @@
       <div class="form-group">
         <span class="paging">
           <a href="javascript:;"><i class="fa fa-chevron-left " *ngIf="country.list.pagination.current_page > 1" (click)="goTo(country.list.pagination.prev_page)"></i></a>
-          <span>{{ country.list.pagination.current_page }}</span> &nbsp;
+          <b>{{ country.list.pagination.current_page }}</b> &nbsp;
           of  &nbsp;
-          <span>{{ country.list.pagination.total_page }}</span>
+          <b>{{ country.list.pagination.total_page }}</b>
           <a href="javascript:;"><i class="fa fa-chevron-right " *ngIf="country.list.pagination.current_page < country.list.pagination.total_page" (click)="goTo(country.list.pagination.next_page)"></i></a>
         </span>
+        <a href="javascript:;" class="fa fa-refresh" (click)="resetTable($event)"></a>
         <span class="fa fa-search"></span>
         <input type="text" class="form-input-search" placeholder="Search something..." name="search" [(ngModel)]="searchForm" (keyup.enter)="formSearchListener($event);" (keyup)="resetTable($event)">
         <span class="fa fa-spinner spin" *ngIf="isSearching == 1"></span>        
@@ -26,7 +27,14 @@
         <th>Alpha 2 Code</th>
         <th>Alpha 3 Code</th>
         <th>Capital</th>
-        <th>Population</th>
+        <th>Population 
+          <span class="sort" *ngIf="country.list.sort.population == '' && country.list.data.length > 1">
+            <a href="javascript:;" class="fa fa-sort-up" (click)="sort('population', country.list.source, 'desc')"></a>
+            <a href="javascript:;" class="fa fa-sort-down" (click)="sort('population', country.list.source, 'asc')"></a>
+          </span>
+          <a href="javascript:;" class="fa fa-sort-up" *ngIf="country.list.sort.population == 'asc' && country.list.data.length > 1" (click)="sort('population', country.list.source, 'desc')"></a>
+          <a href="javascript:;" class="fa fa-sort-down" *ngIf="country.list.sort.population == 'desc' && country.list.data.length > 1" (click)="sort('population', country.list.source, 'asc')"></a>
+        </th>
       </tr>
     </thead>
     <tbody *ngIf="country.list.data.length > 0">

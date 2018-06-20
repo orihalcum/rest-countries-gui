@@ -15,10 +15,18 @@ h1, h2, h3, h4, h5, h6 {
 
 small { color: #DDD !important }
 
-.img-center { margin: 0 auto 15px; }
+a.fa:hover {
+    text-decoration: none;
+}
+
 .text-center { text-align: center !important; }
+
+.img-center { margin: 0 auto 15px; }
+
 .m-t-25 { margin-top: 25px !important; }
+
 .p-30 { padding: 30px !important; }
+
 .bg-light { background-color: #FAFAFA }
 
 .table th, .table tbody tr:first-child td {
@@ -72,6 +80,8 @@ footer {
 .spin {
     animation: spinner 1s linear infinite;
 }
+
+input:-webkit-autofill { background-color: transparent !important; }
 
 @keyframes spinner {
     to { transform: rotate(360deg); }
