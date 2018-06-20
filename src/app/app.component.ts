@@ -106,10 +106,8 @@ export class AppComponent {
                   isExist = true;
               });
               
-              if(isExist == false){
+              if(isExist == false)
                 this.countries.country.push(element);                              
-                this.countries.country.sort(this.dynamicSort(element.name));
-              }
   
             }
   
@@ -117,8 +115,8 @@ export class AppComponent {
         
         }
 
-        this.country.list.source = this.countries.country;
-        this.country.list.data = this.countries.country;
+        this.country.list.source =  this.countries.country.length > 0 ? this.sortByName(this.countries.country) : this.countries.country;
+        this.country.list.data = this.country.list.source;
         this.setPagination();
         this.displayData();
 
@@ -181,6 +179,25 @@ export class AppComponent {
 
   // END OF PAGINATION
 
+  //
+    sortByName(data){
+      console.log(data);
+      return data.sort(function(a,b){ 
+        var A = a.name.toUpperCase(); // ignore upper and lowercase
+        var B = b.name.toUpperCase(); // ignore upper and lowercase
+        if (A < B) {
+          return -1;
+        }
+        if (A > B) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      });
+    }
+  //
+
   // MODAL
     open(country, content) {
       this.country.detail = country;
@@ -201,25 +218,6 @@ export class AppComponent {
       }
     }
   // END OF MODAL
-
-  // HELPER
-    dynamicSort(property) {
-      var sortOrder = 1;
-      if(property[0] === "-") {
-          sortOrder = -1;
-          property = property.substr(1);
-      }
-      return function (a,b) {
-          var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-          return result * sortOrder;
-      }
-    }
-    removeDuplicates(myArr, prop) {
-        return myArr.filter((obj, pos, arr) => {
-            return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
-        });
-    }
-  // END OF HELPER
 
   ngOnInit(): void {
     this.http.get('https://restcountries.eu/rest/v2/all').subscribe(data => {
