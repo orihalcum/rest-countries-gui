@@ -74,4 +74,7 @@ i.fa.fa-chevron-right {
     text-align: right;
 }
 
+.modal-body .table tbody td {
+    width: 50%;
+}
 
