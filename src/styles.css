@@ -21,6 +21,14 @@ small { color: #DDD !important }
 .p-30 { padding: 30px !important; }
 .bg-light { background-color: #FAFAFA }
 
+.table th, .table tbody tr:first-child td {
+    border-top: 0;
+}
+
+.table td {
+    border-top: 1px solid #f1f1f1;
+}
+
 .table-primary {
     box-shadow: 1px 10px 40px #DDD;
 }
@@ -44,7 +52,8 @@ small { color: #DDD !important }
     padding: 25px;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 16px;   
+    font-size: 16px;  
+    border-bottom: 0; 
 }
 
 ::-webkit-input-placeholder {
