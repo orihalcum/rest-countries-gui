@@ -9,9 +9,9 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
+
   title = 'app';
-  country = {
+  country: any = {
     source: [],
     list: {
       source: [],
@@ -39,7 +39,7 @@ export class AppComponent {
   searchForm = '';
 
   constructor(private http: HttpClient, private modalService: NgbModal){
-      
+
   }
 
   // DATA
@@ -52,61 +52,61 @@ export class AppComponent {
         this.countries = {
           country: []
         };
-        
+
         this.country.list.sort = {
           name: '',
           population: ''
         };
-        
+
         let n = e.target.value.length;
 
         if(n > 0){
 
           let keyword = e.target.value;
-          
+
           let url_country_name = "https://restcountries.eu/rest/v2/name/" + keyword;
-          this.http.get(url_country_name).subscribe(data => {            
-              this.renderData(data);                  
+          this.http.get(url_country_name).subscribe(data => {
+              this.renderData(data);
           }, error => { this.renderData([]) });
 
           if(n > 1 && n <= 3){
             let url_iso_code = "https://restcountries.eu/rest/v2/alpha?codes=" + keyword;
             this.http.get(url_iso_code).subscribe(data => {
-              this.renderData(data);                  
+              this.renderData(data);
             }, error => { this.renderData([]) });
           }
-        
+
         }else{
 
           // return to source list
-          this.country.list = this.country.source;    
-          
+          this.country.list = this.country.source;
+
         }
 
       }
 
       renderData(data){
-        
+
         if(data.length > 0){
 
           data.forEach(element => {
-          
+
             if(element != undefined){
-  
+
               let isExist = false;
-              
+
               this.countries.country.forEach(el => {
                 if(element.name == el.name)
                   isExist = true;
               });
-              
+
               if(isExist == false)
-                this.countries.country.push(element);                              
-  
+                this.countries.country.push(element);
+
             }
-  
+
           });
-        
+
         }
 
         this.country.list.source =  this.countries.country.length > 0 ? this.sortByName(this.countries.country) : this.countries.country;
@@ -116,7 +116,7 @@ export class AppComponent {
 
       }
     // END OF FORM SEARCH
-    
+
     resetTable(e){
 
       let n = 0;
@@ -139,18 +139,18 @@ export class AppComponent {
     }
 
   // END OF DATA
-  
+
   // PAGINATION
 
     setPagination(){
 
       let n = this.country.list.source.length;
       let next_page;
-      
+
       this.country.list.pagination.total = n;
       this.country.list.pagination.current_page = n > 0 ? 1 : 0;
       this.country.list.pagination.total_page = Math.ceil(n / this.country.list.pagination.limit);
-      
+
       this.country.list.pagination.total_page > 1 ? next_page = 2 : next_page = this.country.list.pagination.total_page;
       this.country.list.pagination.next_page = next_page;
       this.country.list.pagination.prev_page = 0;
@@ -158,7 +158,7 @@ export class AppComponent {
     }
 
     displayData(){
-      
+
       let data = [];
       let from = ((this.country.list.pagination.current_page-1) * this.country.list.pagination.limit);
       let to = (this.country.list.pagination.current_page * this.country.list.pagination.limit) - 1;
@@ -166,15 +166,15 @@ export class AppComponent {
         if(this.country.list.source[i] != undefined)
           data.push(this.country.list.source[i]);
       }
-      
+
       this.country.list.data = data;
-      
+
       this.isSearching = 0;
-      
+
     }
-    
+
     goTo(n){
-    
+
       let go = n;
       if(n == 1){
         this.setPagination();
@@ -184,12 +184,12 @@ export class AppComponent {
         this.country.list.pagination.prev_page = n - 1;
       }else if(n == this.country.list.pagination.total_page){
         this.country.list.pagination.current_page = n;
-        this.country.list.pagination.prev_page = n - 1; 
-        this.country.list.pagination.next_page = n;               
+        this.country.list.pagination.prev_page = n - 1;
+        this.country.list.pagination.next_page = n;
       }
-      
+
       this.displayData();
-      
+
     }
 
   // END OF PAGINATION
@@ -201,7 +201,7 @@ export class AppComponent {
         case 'population':
           this.sortByPopulation(data, sort);
           break;
-          
+
         default:
           break;
       }
@@ -212,8 +212,8 @@ export class AppComponent {
     }
 
     sortByName(data){
-      
-      return data.sort(function(a,b){ 
+
+      return data.sort(function(a,b){
         var A = a.name.toUpperCase(); // ignore upper and lowercase
         var B = b.name.toUpperCase(); // ignore upper and lowercase
         if (A < B) {
@@ -232,16 +232,13 @@ export class AppComponent {
     sortByPopulation(data, sort){
 
       this.country.list.sort.population = sort;
-      return data.sort(function(a,b){ 
+      return data.sort(function(a,b){
         switch (sort) {
           case "asc":
             return a.population - b.population;
-            break;
           case "desc":
             return b.population - a.population;
-            break;
           default: return data;
-            break;
         }
       });
 
@@ -270,7 +267,7 @@ export class AppComponent {
   // END OF MODAL
 
   ngOnInit(): void {
-    this.http.get('https://restcountries.eu/rest/v2/all').subscribe(data => {
+    this.http.get('https://restcountries.eu/rest/v2/all').subscribe((data: any) => {
       data.forEach(element => {
         this.country.source.push(element);
         this.country.list.data = this.country.source;
